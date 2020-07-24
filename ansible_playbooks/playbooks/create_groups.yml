@@ -1,0 +1,10 @@
+# create_groups.yml
+
+---
+- hosts: all
+  become: yes
+  tasks:
+   - name: Ensure group "sas" exists
+     group:
+       name: sas
+       state: present
