@@ -1,0 +1,42 @@
+# create_users.yml
+
+---
+- name: Include a play to create user group "sas"
+  include: create_groups.yml
+
+- name: Create sas viya system users 
+  hosts: all
+  become: yes
+  vars_files: ../vault
+
+  tasks:
+   - name: create sas user
+     user:
+       name: sas
+       group: sas
+       shell: /bin/bash
+       password: "{{sas_password}}"
+     no_log: true
+
+   - name: set umask for sas user
+     shell: echo "umask 022" | sudo tee --append /home/sas/.bashrc
+
+   - name: create viyadep user
+     user:
+       name: viyadep
+       group: sas
+       shell: /bin/bash
+       password: "{{sas_password}}"
+
+   - name: set umask for viyadep user
+     shell: echo "umask 022" | tee --append /home/viyadep/.bashrc
+
+   - name: create cas user
+     user:
+       name: cas
+       group: sas
+       shell: /bin/bash
+       password: "{{sas_password}}"
+
+   - name: set umask for cas user
+     shell: echo "umask 022" | sudo tee --append /home/cas/.bashrc            
