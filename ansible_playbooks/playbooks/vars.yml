@@ -1,0 +1,17 @@
+
+folders_list:
+  opt_sas: /opt/sas #all
+  sas_shared: /opt/sas_shared # all
+  sas_repo: /opt/sas_shared/sas_repo # all
+  sas_bkp: /opt/sas_shared/backup_sas_viya #all
+  cas_data: /opt/sas/casdata # only cas-crtl
+  sas_data: /opt/sas/sasdata # only viya-comp
+  sas_work: /sastmp/saswork # all
+  cas_cache: /sastmp/cascache # all
+
+# list of all devices on viya-intrf
+disk_device_map:
+  intrf_opt_sas_mount_src: /dev/xvdf
+
+list_of_hostnames:
+  viya_comp: viya-comp-dev
