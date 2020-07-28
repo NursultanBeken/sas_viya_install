@@ -1,0 +1,40 @@
+# install-services.yml
+
+---
+- name: Include a play to update yum before install
+  include: yum-update.yml
+
+  - hosts: all
+    become: true
+    tasks:
+      - name: Installing services
+        yum:
+          name: 
+            - httpd
+            - php
+            - nfs-utils
+            - mlocate
+            - lsof
+            - tcpdump
+            - telnet
+            - ansible
+            - acl
+            - libpng12
+            - mod_ssl
+            - libXp
+            - libXmu
+            - xterm
+            - gcc
+            - xorg-x11*
+            - net-tools
+            - numactl
+            - python3
+            - ntp
+            - mailx
+            - sysstat
+            - sssd 
+            - realmd 
+            - krb5-workstation 
+            - samba-common-tools
+            - nvme-cli
+          state: present
