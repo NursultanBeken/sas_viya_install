@@ -1,0 +1,18 @@
+
+
+- hosts: viya-intrf
+  become: yes
+  tasks:
+    - name: include vars
+      include_vars: vars.yml
+    - name: Create a xfs filesystem
+      filesystem:
+        fstype: xfs
+        dev: "{{ disk_device_map['intrf_opt_sas_mount_src'] }}"
+
+    - name: Mount file System to sas main folder
+      mount:
+        path: "{{ folders_list['opt_sas'] }}"
+        src: "{{ disk_device_map['intrf_opt_sas_mount_src'] }}"
+        fstype: xfs
+        state: mounted

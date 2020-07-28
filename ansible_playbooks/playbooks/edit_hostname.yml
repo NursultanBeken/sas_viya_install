@@ -1,0 +1,11 @@
+
+
+---
+- hosts: viya
+  become: yes
+  tasks:
+    - name: include vars
+      include_vars: vars.yml
+    - name: change hostname on viya
+      hostname:
+        name:  "{{list_of_hostnames['viya_comp']}}"

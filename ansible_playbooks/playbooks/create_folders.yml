@@ -1,0 +1,54 @@
+# create_folders.yml
+
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: include vars
+      include_vars: vars.yml
+    - name: create opt_sas folder
+      file:
+        path: "{{folders_list['opt_sas']}}"
+        state: directory
+        owner: sas
+        group: sas
+
+    - name: create sas_work folder
+      file:
+        path: "{{ folders_list['sas_work'] }}"
+        state: directory
+        owner: sas
+        group: sas
+        mode: '0777'
+
+    - name: create cas_cache folder
+      file:
+        path: "{{ folders_list['cas_cache'] }}"
+        state: directory
+        owner: sas
+        group: sas
+        mode: '0777'
+
+- hosts: cas
+  become: yes
+  tasks:
+    - name: include vars
+      include_vars: vars.yml
+    - name: create casdata folder
+      file:
+        path: "{{folders_list['cas_data']}}"
+        state: directory
+        owner: sas
+        group: sas
+
+- hosts: viya
+  become: yes
+  tasks:
+    - name: include vars
+      include_vars: vars.yml
+    - name: create sasdata folder
+      file:
+        path: "{{folders_list['sas_data']}}"
+        state: directory
+        owner: sas
+        group: sas
