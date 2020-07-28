@@ -1,0 +1,25 @@
+
+
+---
+- name: create mount.sh file 
+  hosts: all
+  become: yes
+  tasks:
+    - name: create mount.sh file
+      file:
+        path: /usr/local/sbin/mount.sh
+        state: touch
+        mode: '0755'      
+    - name: add code into mount.sh file
+      shell: echo "sudo mount -a" > /usr/local/sbin/mount.sh
+    
+    - name: add mount.sh into rc.local
+      shell: echo "/usr/local/sbin/mount.sh" | sudo tee --append /etc/rc.d/rc.local
+    
+    - name: change permissions for rc.local
+      shell: chmod u+x /etc/rc.d/rc.local
+
+    - name: Make sure a rc-local service is running
+      systemd: state=started name=rc-local      
+
+     
