@@ -37,4 +37,5 @@
             - krb5-workstation 
             - samba-common-tools
             - nvme-cli
+            - glibc*
           state: present
