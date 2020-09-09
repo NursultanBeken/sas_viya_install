@@ -8,35 +8,56 @@
   hosts: all
   become: yes
   vars_files: ../vault
+  vars:
+    sudoers:
+      - sas
+      - cas
+      - viyadep
 
   tasks:
-   - name: create sas user
-     user:
-       name: sas
-       group: sas
-       shell: /bin/bash
-       password: "{{ sas_password }}"
-     no_log: true
+    - name: create sas user
+      user:
+        name: sas
+        group: sas
+        shell: /bin/bash
+        password: "{{ sas_password }}"
+      no_log: true
 
-   - name: set umask for sas user
-     shell: echo "umask 022" | sudo tee --append /home/sas/.bashrc
+    - name: set umask for sas user
+      shell: echo "umask 022" | sudo tee --append /home/sas/.bashrc
 
-   - name: create viyadep user
-     user:
-       name: viyadep
-       group: sas
-       shell: /bin/bash
-       password: "{{ sas_password }}"
+    - name: create viyadep user
+      user:
+        name: viyadep
+        group: sas
+        shell: /bin/bash
+        password: "{{ sas_password }}"
+      no_log: true        
 
-   - name: set umask for viyadep user
-     shell: echo "umask 022" | tee --append /home/viyadep/.bashrc
+    - name: set umask for viyadep user
+      shell: echo "umask 022" | tee --append /home/viyadep/.bashrc
 
-   - name: create cas user
-     user:
-       name: cas
-       group: sas
-       shell: /bin/bash
-       password: "{{ sas_password }}"
+    - name: create cas user
+      user:
+        name: cas
+        group: sas
+        shell: /bin/bash
+        password: "{{ sas_password }}"
+      no_log: true
 
-   - name: set umask for cas user
-     shell: echo "umask 022" | sudo tee --append /home/cas/.bashrc            
+    - name: set umask for cas user
+      shell: echo "umask 022" | sudo tee --append /home/cas/.bashrc
+
+    - name: Allow 'sasadmins' group to have passwordless sudo
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%wheel'
+        line: '%sasadmins ALL=(ALL) NOPASSWD: ALL'
+        validate: visudo -cf %s
+    - name: Add sudoers users to sasadmins group
+      user:
+        name: "{{ item }}"
+        groups: sasadmins
+        append: yes
+      with_items: "{{ sudoers }}"

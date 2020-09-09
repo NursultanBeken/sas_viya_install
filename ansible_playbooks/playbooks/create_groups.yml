@@ -8,3 +8,8 @@
      group:
        name: sas
        state: present
+
+   - name: Make sure we have a 'sasadmins' group
+     group:
+        name: sasadmins
+        state: present
