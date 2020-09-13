@@ -13,5 +13,8 @@ folders_list:
 disk_device_map:
   intrf_opt_sas_mount_src: /dev/xvdf
 
+# these variables are used in the play edit_hostname.yml
 list_of_hostnames:
   viya_comp: viya-comp-dev
+  cas_ctl:
+  cas_wrk1:
